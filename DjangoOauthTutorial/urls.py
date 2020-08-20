@@ -23,6 +23,9 @@ from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, Token
 
 
 # first we define the serializers
+from dj_auth_server.views import ApiEndpoint
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -63,4 +66,5 @@ urlpatterns = [
     path('users/', UserList.as_view()),
     path('users/<pk>/', UserDetails.as_view()),
     path('groups/', GroupList.as_view()),
+    path('api/hello', ApiEndpoint.as_view()),  # an example resource endpoint
 ]
