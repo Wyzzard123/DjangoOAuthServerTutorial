@@ -90,6 +90,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # Adding oauth2 middleware. Note that SessionAuthenticationMiddleware must appear first but is not required to use
+    # django-oauth-toolkit (https://django-oauth-toolkit.readthedocs.io/en/latest/tutorial/tutorial_03.html)
+    'oauth2_provider.middleware.OAuth2TokenMiddleware'
 ]
 
 ROOT_URLCONF = 'DjangoOauthTutorial.urls'
@@ -121,6 +125,13 @@ WSGI_APPLICATION = 'DjangoOauthTutorial.wsgi.application'
 
 # Authentication configuration
 AUTHENTICATION_BACKENDS = [
+    # See https://django-oauth-toolkit.readthedocs.io/en/latest/tutorial/tutorial_03.html
+    #  However, it seems like this backend isn't required for the api to function
+    #  See https://django-oauth-toolkit.readthedocs.io/en/latest/rest-framework/getting_started.html where the backend
+    #  is not set.
+    # Note that if we use this backend, it must be placed before the django modelbackend. The modelbackend is required
+    #  to get into the admin page.
+    'oauth2_provider.backends.OAuth2Backend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
