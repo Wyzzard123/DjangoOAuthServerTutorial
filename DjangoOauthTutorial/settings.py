@@ -24,6 +24,9 @@ env = Env()
 if Path(BASE_DIR, 'config', '.env').is_file():
     env.read_env(str(Path(BASE_DIR, 'config', '.env')))
 
+# For the first tutorial, allow CORS requests from all domains.
+CORS_ORIGIN_ALLOW_ALL = True
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -54,9 +57,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dj_auth_server.apps.DjAuthServerConfig',
+
+    # Add oauth2 provider and cors headers to installed apps.
+    'oauth2_provider',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    # Add CORS Middleware as high as possible, esp. before any middleware that can generate responses such as
+    #  Django's CommonMiddleware or Whitenoise's WhiteNoiseMiddleware. If it is not before these, it will not be able to
+    #  add the CORS headers to these responses.
+    'corsheaders.middleware.CorsMiddleware',
+
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
