@@ -61,7 +61,14 @@ INSTALLED_APPS = [
     # Add oauth2 provider and cors headers to installed apps.
     'oauth2_provider',
     'corsheaders',
+    'rest_framework',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    )
+}
 
 MIDDLEWARE = [
     # Add CORS Middleware as high as possible, esp. before any middleware that can generate responses such as
